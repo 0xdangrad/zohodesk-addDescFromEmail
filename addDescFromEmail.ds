@@ -6,7 +6,7 @@
 // 
 void addDescFromEmail(int TktID)
 {
-	// Unique Zoho tenant ID (constant). Get this from /setup#setup/developer-space/api/
+	// Unique Zoho tenant ID (constant). Get this from /setup#setup/developer-space/api/apiauthentication
 	OrgID = #########;
 	getThreads = zoho.desk.getRelatedRecords(OrgID,"threads","tickets",TktID,0,1);
 	ThreadID = getThreads.getJSON("data").getJSON("id");
