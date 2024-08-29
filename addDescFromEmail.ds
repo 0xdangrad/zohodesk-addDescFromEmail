@@ -1,0 +1,17 @@
+// addDescFromEmail Zoho Deluge script;
+// Copies the email content from the thread into the ticket description field.
+// This is required to enable the basic, built-in automation functionality within Workflows for email based tickets.
+// You must create a Workflow that triggers upon ticket creation and that as a result, runs this script.
+// The TktID variable needs to be mapped to the Workflow as an argument to get the Zoho Desk ticket's ID (integer).
+// 
+void addDescFromEmail(int TktID)
+{
+	// Unique Zoho tenant ID (constant). Get this from /setup#setup/developer-space/api/
+	OrgID = #########;
+	getThreads = zoho.desk.getRelatedRecords(OrgID,"threads","tickets",TktID,0,1);
+	ThreadID = getThreads.getJSON("data").getJSON("id");
+	getEmailContent = zoho.desk.getRelatedRecordById(OrgID,"threads",ThreadID,"tickets",TktID).getJSON("content");
+	descPayload = {"description":"<mark><strong>Duplicated info, please ignore:</strong></mark><hr><span style=\"font-family:monaco, Consolas, &quot;Lucida Console&quot;, monospace;font-size:14px;text-rendering:optimizeLegibility !important\">" + getEmailContent + "</span>"};
+	updateDesc = zoho.desk.update(OrgID,"tickets",TktID,descPayload);
+	info updateDesc;
+}
